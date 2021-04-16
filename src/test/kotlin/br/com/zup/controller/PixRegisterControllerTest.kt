@@ -24,7 +24,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @MicronautTest
-internal class PixControllerTest {
+internal class PixRegisterControllerTest {
 
     @field: Inject
     lateinit var registerStub: PixKeyRegisterServiceGrpc.PixKeyRegisterServiceBlockingStub

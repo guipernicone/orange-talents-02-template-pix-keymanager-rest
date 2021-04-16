@@ -2,6 +2,7 @@ package br.com.zup.controller
 
 import br.com.zup.controller.request.RegisterPixRequest
 import br.com.zup.grpc.PixManagerGrpcFactory
+import com.zup.br.orange.PixKeyDeleteServiceGrpc
 import com.zup.br.orange.PixKeyRegisterServiceGrpc
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.Body
@@ -13,8 +14,9 @@ import javax.validation.Valid
 
 @Validated
 @Controller("api/v1/clients/{clientId}/pix")
-class PixController(
-    private val grpcPixService: PixKeyRegisterServiceGrpc.PixKeyRegisterServiceBlockingStub
+class RegisterPixController(
+    private val grpcPixRegisterService: PixKeyRegisterServiceGrpc.PixKeyRegisterServiceBlockingStub,
+    private val grpcPixDeleteService: PixKeyDeleteServiceGrpc.PixKeyDeleteServiceBlockingStub
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -23,7 +25,7 @@ class PixController(
 
         logger.info("Register request receive from client $clientId with request: \n ${request.toString()}")
 
-        val grpcResponse = grpcPixService.register(request.toGrpcModel(clientId))
+        val grpcResponse = grpcPixRegisterService.register(request.toGrpcModel(clientId))
         return HttpResponse.created(this.location(clientId, grpcResponse.pixId))
     }
 
