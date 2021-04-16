@@ -1,14 +1,10 @@
 package br.com.zup.controller
 
-import br.com.zup.controller.request.RegisterPixRequest
-import br.com.zup.controller.resource.AccountTypeRequest
-import br.com.zup.controller.resource.PixType
 import br.com.zup.controller.response.DeletePixResponse
 import br.com.zup.grpc.PixManagerGrpcFactory
+import br.com.zup.utils.MockitoHelper
 import com.zup.br.orange.PixKeyDeleteGrpcResponse
 import com.zup.br.orange.PixKeyDeleteServiceGrpc
-import com.zup.br.orange.PixKeyRegisterGrpcResponse
-import com.zup.br.orange.PixKeyRegisterServiceGrpc
 import io.micronaut.context.annotation.Factory
 import io.micronaut.context.annotation.Replaces
 import io.micronaut.http.HttpRequest
@@ -25,13 +21,13 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @MicronautTest
-class PixDeleteControllerTest {
+internal class PixDeleteControllerTest {
 
-    @field:Inject
+    @field: Inject
     lateinit var deleteStub: PixKeyDeleteServiceGrpc.PixKeyDeleteServiceBlockingStub
 
-    @field:Inject
-    @field:Client("/")
+    @field: Inject
+    @field: Client("/")
     lateinit var client: HttpClient
 
     @Test
@@ -45,7 +41,7 @@ class PixDeleteControllerTest {
             .setDeletedAt(deletedAt)
             .build()
 
-        Mockito.`when`(deleteStub.delete(Mockito.any())).thenReturn(grpcClientResponse)
+        Mockito.`when`(deleteStub.delete(MockitoHelper.anyObject())).thenReturn(grpcClientResponse)
 
         val httpRequest = HttpRequest.DELETE<Any>("/api/v1/clients/$clientId/pix/$pixId")
 
@@ -62,8 +58,7 @@ class PixDeleteControllerTest {
     @Factory
     @Replaces(factory = PixManagerGrpcFactory::class)
     internal class MockitoStubFactory{
-
         @Singleton
-        fun stubMock() = Mockito.mock(PixKeyDeleteServiceGrpc.PixKeyDeleteServiceBlockingStub::class.java)
+        fun deleteMock() = Mockito.mock(PixKeyDeleteServiceGrpc.PixKeyDeleteServiceBlockingStub::class.java)
     }
 }

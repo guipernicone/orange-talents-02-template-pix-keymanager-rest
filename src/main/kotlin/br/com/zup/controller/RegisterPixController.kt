@@ -15,8 +15,7 @@ import javax.validation.Valid
 @Validated
 @Controller("api/v1/clients/{clientId}/pix")
 class RegisterPixController(
-    private val grpcPixRegisterService: PixKeyRegisterServiceGrpc.PixKeyRegisterServiceBlockingStub,
-    private val grpcPixDeleteService: PixKeyDeleteServiceGrpc.PixKeyDeleteServiceBlockingStub
+    private val grpcPixRegisterService: PixKeyRegisterServiceGrpc.PixKeyRegisterServiceBlockingStub
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 

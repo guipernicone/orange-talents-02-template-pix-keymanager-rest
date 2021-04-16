@@ -47,7 +47,7 @@ internal class PixRegisterControllerTest {
             .setPixId("IdTeste")
             .build()
 
-        Mockito.`when`(registerStub.register(Mockito.any())).thenReturn(grpcClientResponse)
+        Mockito.`when`(registerStub.register(MockitoHelper.anyObject())).thenReturn(grpcClientResponse)
 
         val httpRequest = HttpRequest.POST("/api/v1/clients/$clientId/pix/", registerPixRequest)
         val response = client.toBlocking().exchange(httpRequest, RegisterPixRequest::class.java)
@@ -65,7 +65,7 @@ internal class PixRegisterControllerTest {
     internal class MockitoStubFactory{
 
         @Singleton
-        fun stubMock() = Mockito.mock(PixKeyRegisterServiceGrpc.PixKeyRegisterServiceBlockingStub::class.java)
+        fun registerMock() = Mockito.mock(PixKeyRegisterServiceGrpc.PixKeyRegisterServiceBlockingStub::class.java)
     }
 
 

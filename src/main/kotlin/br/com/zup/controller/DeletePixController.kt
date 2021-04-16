@@ -14,7 +14,6 @@ import io.micronaut.validation.Validated
 import org.slf4j.LoggerFactory
 import javax.validation.Valid
 
-@Validated
 @Controller("api/v1/clients/{clientId}/pix")
 class DeletePixController(
     private val grpcPixDeleteService: PixKeyDeleteServiceGrpc.PixKeyDeleteServiceBlockingStub
