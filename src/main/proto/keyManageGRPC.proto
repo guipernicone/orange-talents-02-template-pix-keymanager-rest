@@ -1,0 +1,117 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.zup.br.orange";
+option java_outer_classname = "KeyManageGRPC";
+option objc_class_prefix = "HLW";
+
+package com.zup.br.orange;
+
+// ================= Register Pix ===================
+service PixKeyRegisterService {
+  rpc register(PixKeyRegisterGrpcRequest) returns (PixKeyRegisterGrpcResponse) {}
+}
+
+enum KeyType {
+  UNKNOWN_TYPE = 0;
+  CPF = 1;
+  PHONE = 2;
+  EMAIL = 3;
+  RANDOM = 4;
+}
+
+enum AccountType {
+  UNKNOWN_ACCOUNT = 0;
+  CONTA_CORRENTE = 1;
+  CONTA_POUPANCA = 2;
+}
+
+message PixKeyRegisterGrpcRequest {
+  string clientId = 1;
+  KeyType keyType = 2;
+  string keyValue = 3;
+  AccountType account = 4;
+}
+
+message PixKeyRegisterGrpcResponse {
+  string clientId = 1;
+  string pixId = 2;
+}
+
+// ================= Delete Pix ===================
+service PixKeyDeleteService {
+  rpc delete(PixKeyDeleteGrpcRequest) returns (PixKeyDeleteGrpcResponse) {}
+}
+
+message PixKeyDeleteGrpcRequest {
+  string pixId = 1;
+  string clientId = 2;
+}
+
+message PixKeyDeleteGrpcResponse {
+  string clientId = 1;
+  string ispb = 2;
+  string deletedAt = 3;
+}
+
+// ================= Consult Pix ===================
+service PixKeyConsultService {
+  rpc consult(PixKeyConsultGrpcRequest) returns (PixKeyConsultGrpcResponse) {}
+}
+
+message PixKeyConsultGrpcRequest {
+  message PixId{
+    string clientId = 1;
+    string pixId = 2;
+  }
+
+  oneof filter{
+      PixId pixId = 1;
+      string pixKey = 2;
+  }
+}
+
+message PixKeyConsultGrpcResponse {
+  message Pix {
+    message Account {
+      AccountType type = 1;
+      string institution = 2;
+      string ispb = 3;
+      string titular = 4;
+      string cpf = 5;
+      string agency = 6;
+      string accountNumber = 7;
+    }
+
+    string type = 1;
+    string key = 2;
+    Account account = 3;
+    string createdAt = 4;
+  }
+
+  string clientId = 1;
+  string pixId = 2;
+  Pix pix = 3;
+}
+
+// ================= List Pix ==================
+service PixKeyListService {
+  rpc list(PixKeyListGrpcRequest) returns (PixKeyListGrpcResponse) {}
+}
+
+message PixKeyListGrpcRequest {
+  string clientId = 1;
+}
+
+message PixKeyListGrpcResponse{
+  message Pix {
+    string pixId = 1;
+    KeyType pixType = 2;
+    string pixValue = 3;
+    AccountType accountType = 4;
+    string createdAt = 5;
+  }
+
+  string clientId = 1;
+  repeated Pix pixList = 2;
+}
