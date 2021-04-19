@@ -37,14 +37,6 @@ internal class PixConsultControllerTest {
         val pixId = UUID.randomUUID().toString()
         val createdAt = LocalDateTime.now().toString()
 
-        val pixGrpc = PixKeyConsultGrpcRequest.newBuilder().pixIdBuilder
-            .setPixId(pixId)
-            .setClientId(clientId)
-
-        val grpcClientRequest = PixKeyConsultGrpcRequest.newBuilder()
-            .setPixId(pixGrpc)
-            .build()
-
         val account =  PixKeyConsultGrpcResponse.newBuilder().pixBuilder.accountBuilder
             .setType(AccountType.CONTA_CORRENTE)
             .setAccountNumber("1")
